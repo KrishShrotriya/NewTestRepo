@@ -1,0 +1,26 @@
+.THIS {
+}
+.THIS .right-align{
+    text-align:right;
+    position: relative;
+} 
+.THIS .icon-position{
+    position: absolute;
+    bottom: .3rem;
+    right: .6rem;
+}
+.THIS .icon-position button{
+    border:none;
+}
+.THIS .icon-position .slds-button_icon-border{
+    color: rgb(236, 235, 234);
+}
+.THIS .slds-form-element:hover .slds-button_icon-border {
+    color: rgb(112, 110, 107)
+}
+.THIS .icon-position .slds-button_icon-border:hover, .THIS .icon-position .slds-button_icon-border:focus{
+    color: rgb(0, 112, 210);
+}
+.THIS .add-margin{
+    margin-bottom: .75rem;
+}

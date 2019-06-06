@@ -1,0 +1,70 @@
+<aura:component controller="PageLayoutRecordDisplayController" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName">
+    <aura:attribute name="PageLayoutName" type="String" />
+    <aura:attribute name="isReadMode" type="boolean" default="true"/>
+    <aura:attribute name="PageLayout" type="Object" access="public" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <div class="slds-box slds-theme_default" style="border: none; padding:0rem;">
+        <aura:if isTrue="{! v.recordId }">
+            <aura:if isTrue="{! v.isReadMode }">
+                <lightning:recordViewForm recordId="{! v.recordId }" objectApiName="{! v.sObjectName }">
+                    <aura:iteration items="{! v.PageLayout.Sections }" var="section">
+                        <c:CollapsibleSection title="{! section.Label }">
+                            <div class="slds-grid slds-gutters">
+                                <aura:iteration items="{! section.Columns }" var="column">
+                                    <div class="slds-col">
+                                        <aura:iteration items="{! column.Fields }" var="field"> 
+                                            
+                                            <div class="slds-form-element slds-form-element_readonly slds-grow slds-hint-parent override--slds-form-element hover">
+                                                <div class="slds-grid">
+                                                    <div class="slds-col slds-size_10-of-12">
+                                                        <lightning:outputField fieldName="{! field.APIName }" />
+                                                    </div>
+                                                    <div class="slds-col slds-size_2-of-12 right-align">
+                                                        <div class="icon-position">
+                                                            <lightning:buttonIcon iconName="utility:edit" onclick="{! c.handleClick }" size="small" alternativeText="edit" />
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </aura:iteration>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                        </c:CollapsibleSection>
+                    </aura:iteration>
+                </lightning:recordViewForm>
+                <aura:set attribute="else">
+                    <lightning:recordEditForm objectApiName="{! v.sObjectName }"
+                                              recordId="{! v.recordId }"
+                                              class="slds-card slds-p-around_medium"
+                                              onsuccess="{! c.onsuccess }">
+                        <lightning:messages />
+                        
+                        <aura:iteration items="{! v.PageLayout.Sections }" var="section">
+                            <c:CollapsibleSection title="{! section.Label }">
+                                <div class="slds-grid slds-gutters">
+                                    <aura:iteration items="{! section.Columns }" var="column">
+                                        <div class="slds-col">
+                                            <aura:iteration items="{! column.Fields }" var="field">
+                                                <div class="add-margin">
+                                                    <lightning:inputField fieldName="{! field.APIName }" class="slds-p-top_small slds-m-top_medium" />
+                                                </div>
+                                                
+                                            </aura:iteration>
+                                        </div>
+                                    </aura:iteration>
+                                </div>
+                            </c:CollapsibleSection>
+                        </aura:iteration>
+                        
+                        <lightning:button class="slds-m-top_small" type="submit" label="Save" variant="brand" />
+                        <lightning:button class="slds-m-top_small" label="cancel" variant="Neutral"  onclick="{! c.onCancel }" />
+                    </lightning:recordEditForm>    
+                </aura:set>
+            </aura:if>
+            
+        </aura:if>
+    </div>
+</aura:component>
